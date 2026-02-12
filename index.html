@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mapa Astral com Casas e Elementos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    label, input {
+      display: block;
+      margin: 10px 0;
+      width: 100%;
+    }
+    #resultado {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Calculadora de Mapa Astral</h1>
+  <form id="formMapaAstral">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" required />
+
+    <label for="data">Data de nascimento:</label>
+    <input type="date" id="data" required />
+
+    <label for="hora">Hora de nascimento:</label>
+    <input type="time" id="hora" required />
+
+    <label for="cidade">Cidade de nascimento:</label>
+    <input type="text" id="cidade" required />
+
+    <button type="submit">Consultar Mapa Astral</button>
+  </form>
+
+  <div id="resultado"></div>
+
+  <script>
+    const planetasPT = {
+      Sun: "Sol",
+      Moon: "Lua",
+      Mercury: "Mercúrio",
+      Venus: "Vênus",
+      Mars: "Marte",
+      Jupiter: "Júpiter",
+      Saturn: "Saturno",
+      Uranus: "Urano",
+      Neptune: "Netuno",
+      Pluto: "Plutão",
+      Rahu: "Cabeça do Dragão (Nodo Norte)",
+      Ketu: "Cauda do Dragão (Nodo Sul)"
+    };
+
+    const signosPT = {
+      Aries: "Áries",
+      Taurus: "Touro",
+      Gemini: "Gêmeos",
+      Cancer: "Câncer",
+      Leo: "Leão",
+      Virgo: "Virgem",
+      Libra: "Libra",
+      Scorpio: "Escorpião",
+      Sagittarius: "Sagitário",
+      Capricorn: "Capricórnio",
+      Aquarius: "Aquário",
+      Pisces: "Peixes"
+    };
+
+    const elementos = {
+      "Áries": "Fogo",
+      "Leão": "Fogo",
+      "Sagitário": "Fogo",
+      "Touro": "Terra",
+      "Virgem": "Terra",
+      "Capricórnio": "Terra",
+      "Gêmeos": "Ar",
+      "Libra": "Ar",
+      "Aquário": "Ar",
+      "Câncer": "Água",
+      "Escorpião": "Água",
+      "Peixes": "Água"
+    };
+
+    async function buscarCoordenadas(cidade) {
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cidade)}&format=json&limit=1`;
+      const response = await fetch(url, {
+        headers: {
+          "User-Agent": "MapaAstralApp/1.0"
+        }
+      });
+      const data = await response.json();
+      if (data.length > 0) {
+        return {
+          lat: parseFloat(data[0].lat),
+          lon: parseFloat(data[0].lon)
+        };
+      } else {
+        throw new Error("Localização não encontrada");
+      }
+    }
+
+    async function buscarFusoHorario(lat, lon) {
+      const apiKey = "IMG27W422R9D"; // Substituir
+      const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
+
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.status === "OK") {
+        return parseFloat(data.gmtOffset) / 3600;
+      } else {
+        throw new Error("Erro ao buscar fuso horário");
+      }
+    }
+
+    document.getElementById("formMapaAstral").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const nome = document.getElementById("nome").value;
+      const data = document.getElementById("data").value.split("-");
+      const hora = document.getElementById("hora").value.split(":");
+      const cidade = document.getElementById("cidade").value;
+
+      const day = parseInt(data[2]);
+      const month = parseInt(data[1]);
+      const year = parseInt(data[0]);
+      const hour = parseInt(hora[0]);
+      const min = parseInt(hora[1]);
+
+      try {
+        const coords = await buscarCoordenadas(cidade);
+        const tzone = await buscarFusoHorario(coords.lat, coords.lon);
+
+        const userId = "641346"; // Substituir
+        const apiKey = "aaeff9d9fee89f58622cfeb829cfbbddd6821021"; // Substituir
+
+        const headers = new Headers();
+        headers.append("Authorization", "Basic " + btoa(userId + ":" + apiKey));
+        headers.append("Content-Type", "application/json");
+
+        const commonBody = {
+          day: day,
+          month: month,
+          year: year,
+          hour: hour,
+          min: min,
+          lat: coords.lat,
+          lon: coords.lon,
+          tzone: tzone
+        };
+
+        const planetsResponse = await fetch("https://json.astrologyapi.com/v1/planets/tropical", {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(commonBody)
+        });
+
+        const housesResponse = await fetch("https://json.astrologyapi.com/v1/house_cusps/tropical", {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(commonBody)
+        });
+
+        if (!planetsResponse.ok || !housesResponse.ok) throw new Error("Erro na API");
+
+        const planetsData = await planetsResponse.json();
+        const housesData = await housesResponse.json();
+
+        let html = `<h2>Olá, ${nome}!</h2>`;
+        html += "<p><strong>Planetas no seu mapa:</strong></p><ul>";
+
+        const contagemElementos = { Fogo: 0, Terra: 0, Ar: 0, Água: 0 };
+
+        planetsData.forEach(planet => {
+          const nomePT = planetasPT[planet.name] || planet.name;
+          const signoPT = signosPT[planet.sign] || planet.sign;
+          const elemento = elementos[signoPT] || "Outro";
+          if (contagemElementos[elemento] !== undefined) {
+            contagemElementos[elemento]++;
+          }
+          html += `<li><strong>${nomePT}:</strong> ${signoPT} (Casa ${planet.house})</li>`;
+        });
+
+        html += "</ul>";
+
+        html += "<p><strong>Distribuição dos Elementos:</strong></p><ul>";
+        for (const elemento in contagemElementos) {
+          html += `<li>${elemento}: ${contagemElementos[elemento]} planeta(s)</li>`;
+        }
+        html += "</ul>";
+
+        document.getElementById("resultado").innerHTML = html;
+      } catch (error) {
+        document.getElementById("resultado").innerHTML = "<p>Erro ao consultar a API. Verifique os dados e tente novamente.</p>";
+      }
+    });
+  </script>
+</body>
+</html>
