@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { day, month, year, hour, min, lat, lon, tzone, subject } = req.body;
+    const { day, month, year, hour, min, city, subject } = req.body;
 
     const apiKey = process.env.ASTRO_API_IO_KEY;
 
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "API Key não configurada" });
     }
 
-    const response = await fetch("URL_DA_API_AQUI", {
+    const response = await fetch("https://api.astrology-api.io/api/v3/charts/natal", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -22,21 +22,25 @@ export default async function handler(req, res) {
     subject: {
       name: subject,
       birth_data: {
-        day,
-        month,
-        year,
-        hour,
-        minute: min,
-        latitude: lat,
-        longitude: lon,
-        timezone: tzone
-      }
+  year,
+  month,
+  day,
+  hour,
+  minute: min,
+  second: 0,
+  city,
+  country_code: "BR"
+}
     }
   })
 });
     const data = await response.json();
 
-    return res.status(200).json(data);
+    if (!response.ok) {
+  return res.status(response.status).json(data);
+}
+
+return res.status(200).json(data);
 
   } catch (error) {
     console.error(error);
