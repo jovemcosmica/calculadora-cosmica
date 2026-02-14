@@ -108,7 +108,6 @@ document.getElementById("formMapaAstral")
   resultado.innerHTML = "<p>Consultando os astros... ✨</p>";
 
   try {
-    const coords = await buscarCoordenadas(cidade);
 
     const response = await fetch("/api/mapa-astral", {
       method: "POST",
@@ -122,13 +121,12 @@ document.getElementById("formMapaAstral")
         year,
         hour,
         min,
-        lat: coords.lat,
-        lon: coords.lon,
-        tzone: -3
+	city: cidade
       })
     });
 
     const dataResult = await response.json();
+    console.log(dataResult);
 
     if (!response.ok) throw new Error();
 
