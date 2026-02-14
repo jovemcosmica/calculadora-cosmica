@@ -133,17 +133,20 @@ document.getElementById("formMapaAstral")
     let html = `<h2>Olá, ${nome}! ✨</h2>`;
 html += "<ul>";
 
-Object.values(dataResult).forEach(planet => {
-  if (
-    planet &&
-    planet.point_type === "Planet"
-  ) {
+const planets = dataResult.chart_data?.planetary_positions;
+
+if (planets && Array.isArray(planets)) {
+  planets.forEach(planet => {
     html += `<li>
-      <strong>${planet.name}</strong> em ${planet.sign} 
-      (Casa ${planet.house.replace("_House", "").replace("_", " ")})
+      <strong>${planet.name}</strong> em ${planet.sign}
+      (Casa ${
+	planet.house 
+  	? planet.house.replace("_House", "").replace("_", " ") 
+  		: "—"
+	})
     </li>`;
-  }
-});
+  });
+}
 
 html += "</ul>";
 
