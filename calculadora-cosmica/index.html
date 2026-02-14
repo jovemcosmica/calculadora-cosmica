@@ -134,8 +134,14 @@ document.getElementById("formMapaAstral")
 html += "<ul>";
 
 Object.values(dataResult).forEach(planet => {
-  if (planet && planet.name && planet.sign) {
-    html += `<li><strong>${planet.name}</strong> em ${planet.sign} (Casa ${planet.house})</li>`;
+  if (
+    planet &&
+    planet.point_type === "Planet"
+  ) {
+    html += `<li>
+      <strong>${planet.name}</strong> em ${planet.sign} 
+      (Casa ${planet.house.replace("_House", "").replace("_", " ")})
+    </li>`;
   }
 });
 
