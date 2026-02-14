@@ -133,13 +133,14 @@ document.getElementById("formMapaAstral")
     let html = `<h2>Olá, ${nome}! ✨</h2>`;
     html += "<ul>";
 
-    dataResult.planets.forEach(planet => {
-      html += `<li><strong>${planet.name}</strong> em ${planet.sign} (Casa ${planet.house})</li>`;
-    });
+    Object.values(dataResult).forEach(planet => {
+  html += `<li><strong>${planet.name}</strong> em ${planet.sign} (Casa ${planet.house})</li>`;
+}
+});
 
-    html += "</ul>";
+html += "</ul>";
 
-    resultado.innerHTML = html;
+resultado.innerHTML = html;
 
   } catch (error) {
     resultado.innerHTML = 
