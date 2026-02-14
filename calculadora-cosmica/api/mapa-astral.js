@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { day, month, year, hour, min, lat, lon, tzone } = req.body;
+    const { day, month, year, hour, min, lat, lon, tzone, subject } = req.body;
 
     const apiKey = process.env.ASTRO_API_IO_KEY;
 
@@ -21,6 +21,7 @@ export default async function handler(req, res) {
           "x-api-key": apiKey
         },
         body: JSON.stringify({
+	  subject,
           day,
           month,
           year,
