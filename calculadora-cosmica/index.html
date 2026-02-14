@@ -211,6 +211,8 @@ if (contagemElementos[nomeElemento] !== undefined) {
 });
 }
 
+html += "</ul>";
+
 let elementoEmBaixa = null;
 let menorValor = Infinity;
 
@@ -221,13 +223,43 @@ for (const elemento in contagemElementos) {
   }
 }
 
-html += "</ul>";
-
 html += `
-  <hr>
-  <h3>Resumo Energético ✨</h3>
-  <p>Elemento com menor presença no mapa: <strong>${elementoEmBaixa}</strong></p>
+<hr>
+<h3>Resumo Energético ✨</h3>
+<p>Elemento com menor presença no mapa: <strong>${elementoEmBaixa}</strong></p>
 `;
+
+const recomendacoes = {
+  "Fogo 🔥": {
+    nome: "Home Spray Aroma do Fogo",
+    link: "https://jovemcosmica.com.br/produtos/home-spray-aroma-do-fogo/"
+  },
+  "Água 💧": {
+    nome: "Home Spray Aroma da Água",
+    link: "https://jovemcosmica.com.br/produtos/home-spray-aroma-da-agua/"
+  },
+  "Ar 🌬️": {
+    nome: "Home Spray Aroma do Ar",
+    link: "https://jovemcosmica.com.br/produtos/home-spray-aroma-do-ar/"
+  },
+  "Terra 🌱": {
+    nome: "Home Spray Aroma da Terra",
+    link: "https://jovemcosmica.com.br/produtos/home-spray-aroma-da-terra/"
+  }
+};
+
+const recomendacao = recomendacoes[elementoEmBaixa];
+
+if (recomendacao) {
+  html += `
+    <div style="margin-top:20px; padding:15px; background:#5c1480; border-radius:10px;">
+      <p>✨ Para equilibrar essa energia, recomendamos:</p>
+      <a href="${recomendacao.link}" target="_blank" style="color:#fff; font-weight:bold;">
+        ${recomendacao.nome}
+      </a>
+    </div>
+  `;
+}
 
 resultado.innerHTML = html;
 
