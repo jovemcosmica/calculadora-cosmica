@@ -131,13 +131,47 @@ document.getElementById("formMapaAstral")
     if (!response.ok) throw new Error();
 
     let html = `<h2>Olá, ${nome}! ✨</h2>`;
+
+const signos = {
+  Ari: "Áries",
+  Tau: "Touro",
+  Gem: "Gêmeos",
+  Can: "Câncer",
+  Leo: "Leão",
+  Vir: "Virgem",
+  Lib: "Libra",
+  Sco: "Escorpião",
+  Sag: "Sagitário",
+  Cap: "Capricórnio",
+  Aqu: "Aquário",
+  Pis: "Peixes"
+};
+
+const planetas = {
+  Sun: "Sol",
+  Moon: "Lua",
+  Mercury: "Mercúrio",
+  Venus: "Vênus",
+  Mars: "Marte",
+  Jupiter: "Júpiter",
+  Saturn: "Saturno",
+  Uranus: "Urano",
+  Neptune: "Netuno",
+  Pluto: "Plutão",
+  Ascendant: "Ascendente",
+  Medium_Coeli: "Meio do Céu"
+};
+
 html += "<ul>";
 
 const planets = dataResult.chart_data?.planetary_positions;
 
 if (planets && Array.isArray(planets)) {
   planets.forEach(planet => {
-    html += `<li>${planet.name.replace("_", " ")} - ${planet.sign}</li>`;
+    const nomePlaneta = planetas[planet.name] || planet.name;
+    const nomeSigno = signos[planet.sign] || planet.sign;
+
+    html += `<li><strong>${nomePlaneta}</strong> — ${nomeSigno}</li>`;
   });
 }
 
