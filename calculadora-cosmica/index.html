@@ -60,6 +60,17 @@
   max-width: 260px;
   height: auto;
 }
+.btn-pdf {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: linear-gradient(90deg, #f5b1ff, #d29bff);
+  color: #32004f;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
   </style>
 </head>
 <div class="logo-container">
@@ -336,6 +347,27 @@ resultado.innerHTML = html;
       "<p>Não conseguimos consultar seu mapa agora. Verifique os dados e tente novamente ✨</p>";
   }
 });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<button onclick="gerarPDF()" class="btn-pdf">
+  📄 Baixar meu Diagnóstico Energético
+</button>
+
+<script>
+function gerarPDF() {
+  const elemento = document.getElementById("resultado");
+
+  const opt = {
+    margin: 10,
+    filename: 'diagnostico-energetico-cosmico.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(elemento).save();
+}
 </script>
 </body>
 </html>
