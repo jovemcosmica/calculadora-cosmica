@@ -162,18 +162,31 @@ const planetas = {
   Medium_Coeli: "Meio do Céu"
 };
 
+const elementos = {
+  Fire: "Fogo 🔥",
+  Earth: "Terra 🌱",
+  Air: "Ar 🌬️",
+  Water: "Água 💧"
+};
+
 html += "<ul>";
 
 const planets = dataResult.chart_data?.planetary_positions;
 
 if (planets && Array.isArray(planets)) {
   planets.forEach(planet => {
-    const nomePlaneta = planetas[planet.name] || planet.name;
-    const nomeSigno = signos[planet.sign] || planet.sign;
+  const nomePlaneta = planetas[planet.name] || planet.name;
+  const nomeSigno = signos[planet.sign] || planet.sign;
+  const nomeElemento = elementos[planet.element] || planet.element;
 
-    html += `<li><strong>${nomePlaneta}</strong> — ${nomeSigno}</li>`;
-  });
-}
+  html += `
+    <li>
+      <strong>${nomePlaneta}</strong> — ${nomeSigno}
+      <br>
+      <small>${nomeElemento}</small>
+    </li>
+  `;
+});
 
 html += "</ul>";
 
