@@ -131,11 +131,12 @@ document.getElementById("formMapaAstral")
     if (!response.ok) throw new Error();
 
     let html = `<h2>Olá, ${nome}! ✨</h2>`;
-    html += "<ul>";
+html += "<ul>";
 
-    Object.values(dataResult).forEach(planet => {
-  html += `<li><strong>${planet.name}</strong> em ${planet.sign} (Casa ${planet.house})</li>`;
-}
+Object.values(dataResult).forEach(planet => {
+  if (planet && planet.name && planet.sign) {
+    html += `<li><strong>${planet.name}</strong> em ${planet.sign} (Casa ${planet.house})</li>`;
+  }
 });
 
 html += "</ul>";
