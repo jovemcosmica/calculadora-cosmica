@@ -102,6 +102,10 @@
 
   <div id="resultado"></div>
 
+	<button onclick="gerarPDF()" class="btn-pdf" id="btnPDF" style="display:none;">
+  📄 Baixar meu Diagnóstico Energético
+	</button>
+
   <script>
 async function buscarCoordenadas(cidade) {
   const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cidade + ", Brasil")}&format=json&limit=1`;
@@ -342,6 +346,8 @@ if (recomendacao) {
 
 resultado.innerHTML = html;
 
+document.getElementById("btnPDF").style.display = "block";
+
   } catch (error) {
     resultado.innerHTML = 
       "<p>Não conseguimos consultar seu mapa agora. Verifique os dados e tente novamente ✨</p>";
@@ -349,10 +355,6 @@ resultado.innerHTML = html;
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<button onclick="gerarPDF()" class="btn-pdf">
-  📄 Baixar meu Diagnóstico Energético
-</button>
 
 <script>
 function gerarPDF() {
