@@ -211,7 +211,23 @@ if (contagemElementos[nomeElemento] !== undefined) {
 });
 }
 
+let elementoEmBaixa = null;
+let menorValor = Infinity;
+
+for (const elemento in contagemElementos) {
+  if (contagemElementos[elemento] < menorValor) {
+    menorValor = contagemElementos[elemento];
+    elementoEmBaixa = elemento;
+  }
+}
+
 html += "</ul>";
+
+html += `
+  <hr>
+  <h3>Resumo Energético ✨</h3>
+  <p>Elemento com menor presença no mapa: <strong>${elementoEmBaixa}</strong></p>
+`;
 
 resultado.innerHTML = html;
 
