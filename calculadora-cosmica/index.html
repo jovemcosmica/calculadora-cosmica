@@ -162,11 +162,22 @@ const planetas = {
   Medium_Coeli: "Meio do Céu"
 };
 
-const elementos = {
-  Fire: "Fogo 🔥",
-  Earth: "Terra 🌱",
-  Air: "Ar 🌬️",
-  Water: "Água 💧"
+const elementoPorSigno = {
+  Ari: "Fogo 🔥",
+  Leo: "Fogo 🔥",
+  Sag: "Fogo 🔥",
+
+  Tau: "Terra 🌱",
+  Vir: "Terra 🌱",
+  Cap: "Terra 🌱",
+
+  Gem: "Ar 🌬️",
+  Lib: "Ar 🌬️",
+  Aqu: "Ar 🌬️",
+
+  Can: "Água 💧",
+  Sco: "Água 💧",
+  Pis: "Água 💧"
 };
 
 html += "<ul>";
@@ -177,7 +188,7 @@ if (planets && Array.isArray(planets)) {
   planets.forEach(planet => {
   const nomePlaneta = planetas[planet.name] || planet.name;
   const nomeSigno = signos[planet.sign] || planet.sign;
-  const nomeElemento = elementos[planet.element] || planet.element;
+  const nomeElemento = elementoPorSigno[planet.sign] || "";
 
   html += `
     <li>
