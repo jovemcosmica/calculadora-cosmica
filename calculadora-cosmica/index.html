@@ -137,7 +137,7 @@ const planets = dataResult.chart_data?.planetary_positions;
 
 if (planets && Array.isArray(planets)) {
   planets.forEach(planet => {
-    html += `<li>${planet.name} - ${planet.sign}</li>`;
+    html += `<li>${planet.name.replace("_", " ")} - ${planet.sign}</li>`;
   });
 }
 
