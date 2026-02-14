@@ -21,15 +21,17 @@ export default async function handler(req, res) {
           "x-api-key": apiKey
         },
         body: JSON.stringify({
-	  subject,
-          day,
-          month,
-          year,
-          hour,
-          minute: min,
-          latitude: lat,
-          longitude: lon,
-          timezone: tzone
+  subject: {
+    name: subject
+  },
+  day,
+  month,
+  year,
+  hour,
+  minute: min,
+  latitude: lat,
+  longitude: lon,
+  timezone: tzone
         })
       }
     );
