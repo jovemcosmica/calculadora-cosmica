@@ -223,6 +223,39 @@ for (const elemento in contagemElementos) {
   }
 }
 
+let elementoDominante = null;
+let maiorValor = -1;
+
+for (const elemento in contagemElementos) {
+  if (contagemElementos[elemento] > maiorValor) {
+    maiorValor = contagemElementos[elemento];
+    elementoDominante = elemento;
+  }
+}
+
+const interpretacoes = {
+  "Fogo 🔥": "Seu mapa pode indicar menor impulso, iniciativa ou autoconfiança energética. Ativar o fogo ajuda na ação e motivação.",
+  "Água 💧": "Pode indicar dificuldade em expressar emoções ou se conectar com a intuição. Trabalhar o elemento Água fortalece sensibilidade e equilíbrio emocional.",
+  "Ar 🌬️": "Pode sinalizar menor foco mental ou comunicação. Estimular o Ar ajuda na clareza e criatividade.",
+  "Terra 🌱": "Pode indicar falta de estabilidade ou organização. Fortalecer Terra traz estrutura e segurança."
+};
+
+html += `
+  <div style="margin-top:15px;">
+    <p>${interpretacoes[elementoEmBaixa]}</p>
+  </div>
+`;
+
+html += `
+  <div style="margin-top:15px;">
+    <strong>Distribuição dos Elementos:</strong><br>
+    🔥 ${contagemElementos["Fogo 🔥"]} |
+    💧 ${contagemElementos["Água 💧"]} |
+    🌬️ ${contagemElementos["Ar 🌬️"]} |
+    🌱 ${contagemElementos["Terra 🌱"]}
+  </div>
+`;
+
 html += `
 <hr>
 <h3>Resumo Energético ✨</h3>
@@ -251,11 +284,28 @@ const recomendacoes = {
 const recomendacao = recomendacoes[elementoEmBaixa];
 
 if (recomendacao) {
+
+  // Remove o emoji do nome do elemento pra usar na URL
+  const nomeElementoLimpo = elementoEmBaixa
+    .replace(" 🔥", "")
+    .replace(" 💧", "")
+    .replace(" 🌬️", "")
+    .replace(" 🌱", "");
+
   html += `
     <div style="margin-top:20px; padding:15px; background:#5c1480; border-radius:10px;">
       <p>✨ Para equilibrar essa energia, recomendamos:</p>
-      <a href="${recomendacao.link}" target="_blank" style="color:#fff; font-weight:bold;">
+
+      <a href="${recomendacao.link}" 
+         target="_blank" 
+         style="color:#fff; font-weight:bold; display:block; margin-bottom:10px;">
         ${recomendacao.nome}
+      </a>
+
+      <a href="https://jovemcosmica.com.br/home-sprays-${nomeElementoLimpo.toLowerCase()}" 
+         target="_blank"
+         style="display:inline-block; padding:8px 12px; background:#d29bff; color:#4a0072; border-radius:8px; font-weight:bold; text-decoration:none;">
+         Ver todos os sprays desse elemento
       </a>
     </div>
   `;
