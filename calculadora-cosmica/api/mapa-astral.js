@@ -12,30 +12,28 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "API Key não configurada" });
     }
 
-    const response = await fetch(
-      "https://api.astrology-api.io/api/v3/charts/natal",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey
-        },
-        body: JSON.stringify({
-  subject: {
-    name: subject
+    const response = await fetch("URL_DA_API_AQUI", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-api-key": apiKey
   },
-  day,
-  month,
-  year,
-  hour,
-  minute: min,
-  latitude: lat,
-  longitude: lon,
-  timezone: tzone
-        })
+  body: JSON.stringify({
+    subject: {
+      name: subject,
+      birth_data: {
+        day,
+        month,
+        year,
+        hour,
+        minute: min,
+        latitude: lat,
+        longitude: lon,
+        timezone: tzone
       }
-    );
-
+    }
+  })
+});
     const data = await response.json();
 
     return res.status(200).json(data);
