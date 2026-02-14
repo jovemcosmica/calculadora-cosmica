@@ -180,6 +180,13 @@ const elementoPorSigno = {
   Pis: "Água 💧"
 };
 
+const contagemElementos = {
+  "Fogo 🔥": 0,
+  "Terra 🌱": 0,
+  "Ar 🌬️": 0,
+  "Água 💧": 0
+};
+
 html += "<ul>";
 
 const planets = dataResult.chart_data?.planetary_positions;
@@ -189,6 +196,10 @@ if (planets && Array.isArray(planets)) {
   const nomePlaneta = planetas[planet.name] || planet.name;
   const nomeSigno = signos[planet.sign] || planet.sign;
   const nomeElemento = elementoPorSigno[planet.sign] || "";
+
+if (contagemElementos[nomeElemento] !== undefined) {
+  contagemElementos[nomeElemento]++;
+}
 
   html += `
     <li>
