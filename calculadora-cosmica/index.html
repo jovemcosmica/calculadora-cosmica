@@ -379,7 +379,6 @@ document.getElementById("btnPDF").style.display = "block";
 function gerarPDF() {
   const elementoOriginal = document.getElementById("resultado");
 
-  // Criar container temporário para o PDF
   const containerPDF = document.createElement("div");
 
   containerPDF.innerHTML = `
@@ -393,17 +392,25 @@ function gerarPDF() {
     </div>
   `;
 
+  // 👇 ESSA LINHA É A CHAVE
+  document.body.appendChild(containerPDF);
+
   const opt = {
     margin: 10,
     filename: 'diagnostico-energetico-cosmico.pdf',
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
+    html2canvas: { scale: 2, useCORS: true },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
-  html2pdf().set(opt).from(containerPDF).save();
+  html2pdf()
+    .set(opt)
+    .from(containerPDF)
+    .save()
+    .then(() => {
+      document.body.removeChild(containerPDF); // remove depois de gerar
+    });
 }
 </script>
 </body>
 </html>
-
