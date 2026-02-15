@@ -369,52 +369,32 @@ document.getElementById("btnPDF").style.display = "block";
   }
 });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
 function gerarPDF() {
-  const elementoOriginal = document.getElementById("resultado");
+  const { jsPDF } = window.jspdf;
 
-  if (!elementoOriginal || elementoOriginal.innerHTML.trim() === "") {
+  const elemento = document.getElementById("resultado");
+
+  if (!elemento || elemento.innerText.trim() === "") {
     alert("O diagnóstico ainda não foi gerado.");
     return;
   }
 
-  const clone = elementoOriginal.cloneNode(true);
+  const doc = new jsPDF("p", "mm", "a4");
 
-  clone.style.position = "absolute";
-  clone.style.left = "-9999px";
-  clone.style.top = "0";
-  clone.style.background = "#ffffff";
-  clone.style.color = "#000000";
-  clone.style.width = "800px";
-  clone.style.padding = "30px";
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(12);
 
-  document.body.appendChild(clone);
+  const texto = elemento.innerText;
 
-  const opt = {
-    margin: 10,
-    filename: "diagnostico-energetico-cosmico.pdf",
-    image: { type: "jpeg", quality: 1 },
-    html2canvas: { 
-      scale: 2,
-      useCORS: true,
-      backgroundColor: "#ffffff"
-    },
-    jsPDF: { 
-      unit: "mm", 
-      format: "a4", 
-      orientation: "portrait" 
-    }
-  };
+  const linhas = doc.splitTextToSize(texto, 180);
 
-  html2pdf()
-    .set(opt)
-    .from(clone)
-    .save()
-    .then(() => {
-      document.body.removeChild(clone);
-    });
+  doc.text(linhas, 15, 20);
+
+  doc.save("diagnostico-energetico-cosmico.pdf");
 }
 </script>
 </body>
