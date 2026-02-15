@@ -377,26 +377,31 @@ document.getElementById("btnPDF").style.display = "block";
 
 <script>
 function gerarPDF() {
-  const elemento = document.getElementById("resultado");
+  const elementoOriginal = document.getElementById("resultado");
+
+  // Criar container temporário para o PDF
+  const containerPDF = document.createElement("div");
+
+  containerPDF.innerHTML = `
+    <div style="text-align:center; margin-bottom:20px;">
+      <img src="https://dcdn-us.mitiendanube.com/stores/006/325/212/themes/common/logo-1097354101-1749087161-4df9d2447d2a1bf88230390b8b24bb741749087161-480-0.webp"
+           style="max-width:180px;">
+    </div>
+    ${elementoOriginal.innerHTML}
+    <div style="margin-top:40px; text-align:center; font-size:14px; opacity:0.8;">
+      ✨ Feito com carinho pela <strong>Jovem Cósmica</strong> 🌙
+    </div>
+  `;
 
   const opt = {
     margin: 10,
     filename: 'diagnostico-energetico-cosmico.pdf',
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { 
-      scale: 1.5,
-      useCORS: true,
-      scrollY: 0
-    },
-    jsPDF: { 
-      unit: 'mm', 
-      format: 'a4', 
-      orientation: 'portrait' 
-    },
-    pagebreak: { mode: ['css', 'legacy'] }
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
-  html2pdf().set(opt).from(elemento).save();
+  html2pdf().set(opt).from(containerPDF).save();
 }
 </script>
 </body>
