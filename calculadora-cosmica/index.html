@@ -51,6 +51,31 @@ button:hover {
   background-color: #4a0074;
   border-radius: 10px;
 }
+
+.barra {
+  height: 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: #5c1480;
+  overflow: hidden;
+}
+
+.preenchimento {
+  height: 100%;
+  background: #f5b1ff;
+}
+
+.botao-compra {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f5b1ff;
+  color: #32004f;
+  font-weight: bold;
+  text-decoration: none;
+}
 </style>
 </head>
 
@@ -62,13 +87,16 @@ button:hover {
 <label>Nome:</label>
 <input type="text" id="nome" required />
 
+<label>Email (para receber seu diagnóstico):</label>
+<input type="email" id="email" required />
+
 <label>Data de nascimento:</label>
 <input type="date" id="data" required />
 
 <label>Hora de nascimento:</label>
 <input type="time" id="hora" required />
 
-<button type="submit">Gerar Meu Diagnóstico</button>
+<button type="submit">Receber Meu Diagnóstico</button>
 </form>
 
 <div id="resultado"></div>
@@ -107,56 +135,25 @@ function energiaDaHora(hora) {
   return "Terra";
 }
 
-function gerarDiagnostico(elementoBase, elementoHora) {
-
-  let intensidade;
-  let dominante;
-  let emBaixa;
-
-  if (elementoBase === elementoHora) {
-    intensidade = "potencializada";
-    dominante = elementoBase;
-  } else {
-    intensidade = "harmonizada";
-    dominante = elementoBase;
-  }
-
-  const todos = ["Fogo","Terra","Ar","Água"];
-  emBaixa = todos.find(el => el !== elementoBase && el !== elementoHora);
-
-  return { intensidade, dominante, emBaixa };
-}
-
-const interpretacoes = {
-  "Fogo": {
-    potencializada: "Sua energia é intensa e magnética. Quando você decide agir, move situações e inspira pessoas ao seu redor.",
-    harmonizada: "Você possui impulso criativo, mas equilibra ação com reflexão. Quando confia na própria força, sua presença se expande."
-  },
-  "Água": {
-    potencializada: "Sua sensibilidade é profunda e intuitiva. Você sente o ambiente antes mesmo que algo aconteça.",
-    harmonizada: "Sua conexão emocional é marcante, mas você tende a racionalizar sentimentos antes de agir. Quando integra emoção e ação, sua força se amplifica."
-  },
-  "Ar": {
-    potencializada: "Sua mente é rápida e comunicativa. Ideias surgem com facilidade e você influencia através da palavra.",
-    harmonizada: "Você alterna entre pensamento lógico e introspecção. Quando expressa suas ideias com confiança, cria conexões poderosas."
-  },
-  "Terra": {
-    potencializada: "Você transmite estabilidade e segurança. Sua energia é firme, estruturada e confiável.",
-    harmonizada: "Você busca equilíbrio entre estabilidade e movimento. Quando assume seu ritmo natural, constrói bases sólidas."
-  }
+const arquetipos = {
+  "Fogo":"A Visionária 🔥",
+  "Água":"A Curadora 🌊",
+  "Ar":"A Comunicadora 🌬️",
+  "Terra":"A Guardiã 🌿"
 };
 
 const recomendacoes = {
-  "Fogo":"Home Spray Aroma do Fogo",
-  "Água":"Home Spray Aroma da Água",
-  "Ar":"Home Spray Aroma do Ar",
-  "Terra":"Home Spray Aroma da Terra"
+  "Fogo":"https://jovemcosmica.com.br/",
+  "Água":"https://jovemcosmica.com.br/",
+  "Ar":"https://jovemcosmica.com.br/",
+  "Terra":"https://jovemcosmica.com.br/"
 };
 
 document.getElementById("formCosmico").addEventListener("submit", function(e){
   e.preventDefault();
 
   const nome = document.getElementById("nome").value;
+  const email = document.getElementById("email").value;
   const data = document.getElementById("data").value.split("-");
   const hora = parseInt(document.getElementById("hora").value.split(":")[0]);
 
@@ -167,24 +164,41 @@ document.getElementById("formCosmico").addEventListener("submit", function(e){
   const elementoBase = elementoDoSigno(signo);
   const elementoHora = energiaDaHora(hora);
 
-  const perfil = gerarDiagnostico(elementoBase, elementoHora);
+  const todos = ["Fogo","Terra","Ar","Água"];
+  const elementoEmBaixa = todos.find(el => el !== elementoBase && el !== elementoHora);
+
+  let porcentagens = {
+    Fogo: elementoBase === "Fogo" ? 70 : 30,
+    Terra: elementoBase === "Terra" ? 70 : 30,
+    Ar: elementoBase === "Ar" ? 70 : 30,
+    Água: elementoBase === "Água" ? 70 : 30
+  };
 
   let html = `
     <h2>Olá, ${nome} ✨</h2>
+    <p><strong>Seu arquétipo energético:</strong> ${arquetipos[elementoBase]}</p>
     <p><strong>Signo solar:</strong> ${signo}</p>
-    <p><strong>Elemento predominante:</strong> ${perfil.dominante}</p>
-    <p><strong>Vibração energética:</strong> ${perfil.intensidade}</p>
+    <p><strong>Elemento predominante:</strong> ${elementoBase}</p>
     <hr>
-    <h3>Seu Diagnóstico Energético</h3>
-    <p>${interpretacoes[perfil.dominante][perfil.intensidade]}</p>
-    <p><strong>Elemento que pede fortalecimento:</strong> ${perfil.emBaixa}</p>
-    <div style="margin-top:15px; padding:15px; background:#5c1480; border-radius:10px;">
-      <p>✨ Para ativar o elemento ${perfil.emBaixa} e expandir sua energia, recomendamos:</p>
-      <strong>${recomendacoes[perfil.emBaixa]}</strong>
-    </div>
+    <h3>Mapa Elemental</h3>
+
+    ${Object.keys(porcentagens).map(el => `
+      <p>${el}</p>
+      <div class="barra">
+        <div class="preenchimento" style="width:${porcentagens[el]}%"></div>
+      </div>
+    `).join("")}
+
+    <p><strong>Elemento que pede fortalecimento:</strong> ${elementoEmBaixa}</p>
+
+    <a class="botao-compra" href="${recomendacoes[elementoEmBaixa]}" target="_blank">
+      ✨ Ativar minha energia agora
+    </a>
   `;
 
   document.getElementById("resultado").innerHTML = html;
+
+  console.log("Lead capturado:", nome, email);
 });
 
 </script>
