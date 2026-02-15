@@ -380,12 +380,20 @@ function gerarPDF() {
     return;
   }
 
+  const clone = elementoOriginal.cloneNode(true);
+
+  clone.style.maxWidth = "100%";
+  clone.style.margin = "0";
+  clone.style.background = "#ffffff";
+  clone.style.color = "#000000";
+  clone.style.padding = "30px";
+
   const opt = {
     margin: 10,
     filename: "diagnostico-energetico-cosmico.pdf",
     image: { type: "jpeg", quality: 1 },
     html2canvas: { 
-      scale: 1,
+      scale: 2,
       useCORS: true,
       backgroundColor: "#ffffff"
     },
@@ -398,7 +406,7 @@ function gerarPDF() {
 
   html2pdf()
     .set(opt)
-    .from(elementoOriginal)
+    .from(clone)
     .save();
 }
 </script>
