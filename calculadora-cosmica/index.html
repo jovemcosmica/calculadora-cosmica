@@ -388,9 +388,11 @@ function gerarPDF() {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
 
-  const texto = elemento.innerText;
+  // REMOVE EMOJIS E CARACTERES ESPECIAIS
+  const textoLimpo = elemento.innerText
+    .replace(/[^\u0000-\u00FF]/g, "");
 
-  const linhas = doc.splitTextToSize(texto, 180);
+  const linhas = doc.splitTextToSize(textoLimpo, 180);
 
   doc.text(linhas, 15, 20);
 
