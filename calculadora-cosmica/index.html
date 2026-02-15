@@ -175,10 +175,7 @@ fetch("https://docs.google.com/forms/d/e/1FAIpQLScfyNSKfklLjs55hu4Vc8koARBh_o5wD
   headers: {
     "Content-Type": "application/x-www-form-urlencoded"
   },
-  body: `entry.1178614575=${encodeURIComponent(nome)}&
-         entry.1313531657=${encodeURIComponent(email)}&
-         entry.181825860=${encodeURIComponent(signo)}&
-         entry.214725174=${encodeURIComponent(elementoBase)}`
+  body: `entry.1178614575=${encodeURIComponent(nome)}&entry.1313531657=${encodeURIComponent(email)}&entry.181825860=${encodeURIComponent(signo)}&entry.214725174=${encodeURIComponent(elementoBase)}`
 });
 
   const elementoHora = energiaDaHora(hora);
