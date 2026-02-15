@@ -56,7 +56,7 @@ button:hover {
 
 <body>
 
-<h2>✨ Diagnóstico Energético Cósmico ✨</h2>
+<h1>✨ Diagnóstico Energético Cósmico ✨</h1>
 
 <form id="formCosmico">
 <label>Nome:</label>
@@ -114,10 +114,10 @@ function gerarDiagnostico(elementoBase, elementoHora) {
   let emBaixa;
 
   if (elementoBase === elementoHora) {
-    intensidade = "alta";
+    intensidade = "potencializada";
     dominante = elementoBase;
   } else {
-    intensidade = "equilibrada";
+    intensidade = "harmonizada";
     dominante = elementoBase;
   }
 
@@ -129,20 +129,20 @@ function gerarDiagnostico(elementoBase, elementoHora) {
 
 const interpretacoes = {
   "Fogo": {
-    alta: "Sua energia é intensa, magnética e cheia de iniciativa. Você naturalmente assume liderança e inspira movimento.",
-    equilibrada: "Você possui impulso criativo, mas alterna entre ação e introspecção, buscando momentos de recarga."
+    potencializada: "Sua energia é intensa e magnética. Quando você decide agir, move situações e inspira pessoas ao seu redor.",
+    harmonizada: "Você possui impulso criativo, mas equilibra ação com reflexão. Quando confia na própria força, sua presença se expande."
   },
   "Água": {
-    alta: "Sua sensibilidade é profunda e intuitiva. Emoções são sua grande força e conexão espiritual.",
-    equilibrada: "Você tem conexão emocional, mas busca racionalizar sentimentos antes de agir."
+    potencializada: "Sua sensibilidade é profunda e intuitiva. Você sente o ambiente antes mesmo que algo aconteça.",
+    harmonizada: "Sua conexão emocional é marcante, mas você tende a racionalizar sentimentos antes de agir. Quando integra emoção e ação, sua força se amplifica."
   },
   "Ar": {
-    alta: "Sua mente é rápida e comunicativa. Ideias fluem com facilidade e você inspira através da palavra.",
-    equilibrada: "Você alterna entre pensamento lógico e momentos de introspecção silenciosa."
+    potencializada: "Sua mente é rápida e comunicativa. Ideias surgem com facilidade e você influencia através da palavra.",
+    harmonizada: "Você alterna entre pensamento lógico e introspecção. Quando expressa suas ideias com confiança, cria conexões poderosas."
   },
   "Terra": {
-    alta: "Você transmite estabilidade e segurança. Sua energia é estruturada, confiável e centrada.",
-    equilibrada: "Você busca equilíbrio entre estabilidade e movimento, adaptando-se conforme necessário."
+    potencializada: "Você transmite estabilidade e segurança. Sua energia é firme, estruturada e confiável.",
+    harmonizada: "Você busca equilíbrio entre estabilidade e movimento. Quando assume seu ritmo natural, constrói bases sólidas."
   }
 };
 
@@ -173,13 +173,13 @@ document.getElementById("formCosmico").addEventListener("submit", function(e){
     <h2>Olá, ${nome} ✨</h2>
     <p><strong>Signo solar:</strong> ${signo}</p>
     <p><strong>Elemento predominante:</strong> ${perfil.dominante}</p>
-    <p><strong>Intensidade energética:</strong> ${perfil.intensidade}</p>
+    <p><strong>Vibração energética:</strong> ${perfil.intensidade}</p>
     <hr>
     <h3>Seu Diagnóstico Energético</h3>
     <p>${interpretacoes[perfil.dominante][perfil.intensidade]}</p>
-    <p><strong>Elemento que pode ser fortalecido:</strong> ${perfil.emBaixa}</p>
+    <p><strong>Elemento que pede fortalecimento:</strong> ${perfil.emBaixa}</p>
     <div style="margin-top:15px; padding:15px; background:#5c1480; border-radius:10px;">
-      <p>✨ Para equilibrar sua energia recomendamos:</p>
+      <p>✨ Para ativar o elemento ${perfil.emBaixa} e expandir sua energia, recomendamos:</p>
       <strong>${recomendacoes[perfil.emBaixa]}</strong>
     </div>
   `;
@@ -188,5 +188,6 @@ document.getElementById("formCosmico").addEventListener("submit", function(e){
 });
 
 </script>
+
 </body>
 </html>
