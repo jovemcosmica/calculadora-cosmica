@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Diagnóstico Energético Cósmico</title>
+<title>Leitura Energética Cósmica</title>
 
 <style>
 body {
@@ -81,13 +81,13 @@ button:hover {
 
 <body>
 
-<h1>✨ Diagnóstico Energético Cósmico ✨</h1>
+<h1>✨ Leitura Energética Cósmica ✨</h1>
 
 <form id="formCosmico">
 <label>Nome:</label>
 <input type="text" id="nome" required />
 
-<label>Email (para receber seu diagnóstico):</label>
+<label>Email (para receber sua leitura):</label>
 <input type="email" id="email" required />
 
 <label>Data de nascimento:</label>
@@ -96,7 +96,7 @@ button:hover {
 <label>Hora de nascimento:</label>
 <input type="time" id="hora" required />
 
-<button type="submit">Receber Meu Diagnóstico</button>
+<button type="submit">Receber Minha Leitura</button>
 </form>
 
 <div id="resultado"></div>
@@ -142,7 +142,14 @@ const arquetipos = {
   "Terra":"A Guardiã 🌿"
 };
 
-const recomendacoes = {
+const interpretacoes = {
+  "Fogo":"Sua energia é intensa e magnética. Quando você decide agir, move situações e inspira pessoas ao seu redor.",
+  "Água":"Sua conexão emocional é profunda. Você sente o ambiente antes mesmo que algo aconteça, mas tende a racionalizar sentimentos antes de agir. Quando integra emoção e ação, sua força se amplifica.",
+  "Ar":"Sua mente é rápida e comunicativa. Ideias surgem com facilidade e você influencia através da palavra.",
+  "Terra":"Você transmite estabilidade e segurança. Sua energia é estruturada e confiável."
+};
+
+const linksProdutos = {
   "Fogo":"https://jovemcosmica.com.br/",
   "Água":"https://jovemcosmica.com.br/",
   "Ar":"https://jovemcosmica.com.br/",
@@ -174,42 +181,37 @@ document.getElementById("formCosmico").addEventListener("submit", function(e){
     Água: elementoBase === "Água" ? 70 : 30
   };
 
-  const interpretacoes = {
-  "Fogo": "Sua energia é intensa e magnética. Quando você decide agir, move situações e inspira pessoas ao seu redor.",
-  "Água": "Sua conexão emocional é profunda. Você sente o ambiente antes mesmo que algo aconteça, mas tende a racionalizar sentimentos antes de agir. Quando integra emoção e ação, sua força se amplifica.",
-  "Ar": "Sua mente é rápida e comunicativa. Ideias surgem com facilidade e você influencia através da palavra.",
-  "Terra": "Você transmite estabilidade e segurança. Sua energia é estruturada e confiável."
-};
+  let html = `
+    <h2>Olá, ${nome} ✨</h2>
 
-let html = `
-  <h2>Olá, ${nome} ✨</h2>
+    <p><strong>Seu arquétipo energético:</strong> ${arquetipos[elementoBase]}</p>
+    <p><strong>Signo solar:</strong> ${signo}</p>
+    <p><strong>Elemento predominante:</strong> ${elementoBase}</p>
 
-  <p><strong>Seu arquétipo energético:</strong> ${arquetipos[elementoBase]}</p>
-  <p><strong>Signo solar:</strong> ${signo}</p>
-  <p><strong>Elemento predominante:</strong> ${elementoBase}</p>
+    <hr>
 
-  <hr>
+    <h3>Sua Leitura Energética</h3>
+    <p>${interpretacoes[elementoBase]}</p>
 
-  <h3>Seu Diagnóstico Energético</h3>
-  <p>${interpretacoes[elementoBase]}</p>
+    <hr>
 
-  <hr>
+    <h3>Mapa Elemental</h3>
 
-  <h3>Mapa Elemental</h3>
+    ${Object.keys(porcentagens).map(el => `
+      <p>${el}</p>
+      <div class="barra">
+        <div class="preenchimento" style="width:${porcentagens[el]}%"></div>
+      </div>
+    `).join("")}
 
-  ${Object.keys(porcentagens).map(el => `
-    <p>${el}</p>
-    <div class="barra">
-      <div class="preenchimento" style="width:${porcentagens[el]}%"></div>
-    </div>
-  `).join("")}
+    <p><strong>Elemento que pede fortalecimento:</strong> ${elementoEmBaixa}</p>
 
-  <p><strong>Elemento que pede fortalecimento:</strong> ${elementoEmBaixa}</p>
+    <a class="botao-compra" href="${linksProdutos[elementoEmBaixa]}" target="_blank">
+      ✨ Ativar minha energia agora
+    </a>
+  `;
 
-  <a class="botao-compra" href="${recomendacoes[elementoEmBaixa]}" target="_blank">
-    ✨ Ativar minha energia agora
-  </a>
-`;
+  document.getElementById("resultado").innerHTML = html;
 
   console.log("Lead capturado:", nome, email);
 });
