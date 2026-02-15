@@ -5,19 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Leitura Energética Cósmica</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
 body {
-  background-color: #32004f;
+  background-color: #3f0059;
   color: #ffffff;
-  font-family: Arial, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 35px 20px;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 20px auto;
+  max-width: 210px;
+}
+
+h1, h2, h3 {
+  font-family: 'Paytone One', sans-serif;
 }
 
 h1 {
   text-align: center;
-  color: #f5b1ff;
+  color: #ff6bb0;
+  margin-bottom: 30px;
 }
 
 label {
@@ -27,59 +45,86 @@ label {
 
 input, button {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 14px;
+  border-radius: 12px;
   border: none;
   font-size: 1rem;
+  box-sizing: border-box;
 }
 
 button {
-  background-color: #f5b1ff;
-  color: #32004f;
+  background-color: #ff6bb0;
+  color: #00003a;
   margin-top: 20px;
-  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #e189ff;
+  opacity: 0.9;
 }
 
 #resultado {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #4a0074;
-  border-radius: 10px;
+  margin-top: 35px;
+  padding: 25px;
+  background-color: #6e0094;
+  border-radius: 18px;
+}
+
+.barra-container {
+  margin-bottom: 15px;
 }
 
 .barra {
-  height: 10px;
-  border-radius: 6px;
-  margin-bottom: 8px;
-  background: #5c1480;
+  height: 8px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.2);
   overflow: hidden;
+  margin-top: 5px;
 }
 
 .preenchimento {
   height: 100%;
-  background: #f5b1ff;
+  background: rgba(255, 204, 203, 0.85);
+  border-radius: 20px;
+  transition: width 0.6s ease;
+}
+
+.percentual {
+  font-size: 0.85rem;
+  opacity: 0.8;
 }
 
 .botao-compra {
   display: block;
   text-align: center;
-  margin-top: 15px;
-  padding: 12px;
-  border-radius: 8px;
-  background: #f5b1ff;
-  color: #32004f;
+  margin-top: 25px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #ffcb75;
+  color: #3f0059;
   font-weight: bold;
   text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 25px 15px;
+  }
+  h1 {
+    font-size: 1.6rem;
+  }
 }
 </style>
 </head>
 
 <body>
+
+<div class="container">
+
+<img src="https://dcdn-us.mitiendanube.com/stores/006/325/212/themes/common/logo-1097354101-1749087161-4df9d2447d2a1bf88230390b8b24bb741749087161-480-0.webp" class="logo" alt="Logo Jovem Cósmica">
 
 <h1>✨ Leitura Energética Cósmica ✨</h1>
 
@@ -87,7 +132,7 @@ button:hover {
 <label>Nome:</label>
 <input type="text" id="nome" required />
 
-<label>Email (para receber sua leitura):</label>
+<label>Email:</label>
 <input type="email" id="email" required />
 
 <label>Data de nascimento:</label>
@@ -96,10 +141,12 @@ button:hover {
 <label>Hora de nascimento:</label>
 <input type="time" id="hora" required />
 
-<button type="submit">Receber Minha Leitura</button>
+<button type="submit">Receber minha leitura</button>
 </form>
 
 <div id="resultado"></div>
+
+</div>
 
 <script>
 
@@ -149,11 +196,11 @@ const interpretacoes = {
   "Terra":"Você transmite estabilidade e segurança. Sua energia é estruturada e confiável."
 };
 
-const linksProdutos = {
-  "Fogo":"https://jovemcosmica.com.br/",
-  "Água":"https://jovemcosmica.com.br/",
-  "Ar":"https://jovemcosmica.com.br/",
-  "Terra":"https://jovemcosmica.com.br/"
+const emojisElementos = {
+  "Fogo": "🔥",
+  "Água": "🌊",
+  "Ar": "🌬️",
+  "Terra": "🌿"
 };
 
 document.getElementById("formCosmico").addEventListener("submit", function(e){
@@ -169,16 +216,14 @@ document.getElementById("formCosmico").addEventListener("submit", function(e){
 
   const signo = descobrirSigno(dia, mes);
   const elementoBase = elementoDoSigno(signo);
-fetch("https://docs.google.com/forms/d/e/1FAIpQLScfyNSKfklLjs55hu4Vc8koARBh_o5wDfe4DglVnZ9L0qdTIQ/formResponse", {
-  method: "POST",
-  mode: "no-cors",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
-  },
-  body: `entry.1178614575=${encodeURIComponent(nome)}&entry.1313531657=${encodeURIComponent(email)}&entry.181825860=${encodeURIComponent(signo)}&entry.214725174=${encodeURIComponent(elementoBase)}`
-});
-
   const elementoHora = energiaDaHora(hora);
+
+  fetch("https://docs.google.com/forms/d/e/1FAIpQLScfyNSKfklLjs55hu4Vc8koARBh_o5wDfe4DglVnZ9L0qdTIQ/formResponse", {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `entry.1178614575=${encodeURIComponent(nome)}&entry.1313531657=${encodeURIComponent(email)}&entry.181825860=${encodeURIComponent(signo)}&entry.214725174=${encodeURIComponent(elementoBase)}`
+  });
 
   const todos = ["Fogo","Terra","Ar","Água"];
   const elementoEmBaixa = todos.find(el => el !== elementoBase && el !== elementoHora);
@@ -191,38 +236,30 @@ fetch("https://docs.google.com/forms/d/e/1FAIpQLScfyNSKfklLjs55hu4Vc8koARBh_o5wD
   };
 
   let html = `
-    <h2>Olá, ${nome} ✨</h2>
-
+    <h2>✨ Olá, ${nome}</h2>
     <p><strong>Seu arquétipo energético:</strong> ${arquetipos[elementoBase]}</p>
     <p><strong>Signo solar:</strong> ${signo}</p>
     <p><strong>Elemento predominante:</strong> ${elementoBase}</p>
-
     <hr>
-
     <h3>Sua Leitura Energética</h3>
     <p>${interpretacoes[elementoBase]}</p>
-
     <hr>
-
     <h3>Mapa Elemental</h3>
-
     ${Object.keys(porcentagens).map(el => `
-      <p>${el}</p>
-      <div class="barra">
-        <div class="preenchimento" style="width:${porcentagens[el]}%"></div>
+      <div class="barra-container">
+        <strong>${el}</strong> <span class="percentual">${porcentagens[el]}%</span>
+        <div class="barra">
+          <div class="preenchimento" style="width:${porcentagens[el]}%"></div>
+        </div>
       </div>
     `).join("")}
-
-    <p><strong>Elemento que pede fortalecimento:</strong> ${elementoEmBaixa}</p>
-
-    <a class="botao-compra" href="${linksProdutos[elementoEmBaixa]}" target="_blank">
-      ✨ Ativar minha energia agora
+    <p><strong>Elemento que pede fortalecimento:</strong> ${elementoEmBaixa} ${emojisElementos[elementoEmBaixa]}</p>
+    <a class="botao-compra" href="https://jovemcosmica.com.br/" target="_blank">
+      🔮 Ativar minha energia agora
     </a>
   `;
 
   document.getElementById("resultado").innerHTML = html;
-
-  console.log("Lead capturado:", nome, email);
 });
 
 </script>
