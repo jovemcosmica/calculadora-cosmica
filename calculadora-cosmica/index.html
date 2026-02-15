@@ -380,42 +380,26 @@ function gerarPDF() {
     return;
   }
 
-  const containerPDF = document.createElement("div");
-
-  containerPDF.style.width = "800px";
-  containerPDF.style.padding = "40px";
-  containerPDF.style.background = "#ffffff";
-  containerPDF.style.color = "#000000";
-  containerPDF.style.fontFamily = "Arial, sans-serif";
-
-  containerPDF.innerHTML = `
-    <div style="text-align:center; margin-bottom:20px;">
-      <img src="https://dcdn-us.mitiendanube.com/stores/006/325/212/themes/common/logo-1097354101-1749087161-4df9d2447d2a1bf88230390b8b24bb741749087161-480-0.webp"
-           style="max-width:180px;">
-    </div>
-    ${elementoOriginal.innerHTML}
-    <div style="margin-top:40px; text-align:center; font-size:14px; opacity:0.8;">
-      ✨ Feito com carinho pela <strong>Jovem Cósmica</strong> 🌙
-    </div>
-  `;
-
-  document.body.appendChild(containerPDF);
-
   const opt = {
     margin: 10,
     filename: "diagnostico-energetico-cosmico.pdf",
     image: { type: "jpeg", quality: 1 },
-    html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+    html2canvas: { 
+      scale: 1,
+      useCORS: true,
+      backgroundColor: "#ffffff"
+    },
+    jsPDF: { 
+      unit: "mm", 
+      format: "a4", 
+      orientation: "portrait" 
+    }
   };
 
   html2pdf()
     .set(opt)
-    .from(containerPDF)
-    .save()
-    .then(() => {
-      document.body.removeChild(containerPDF);
-    });
+    .from(elementoOriginal)
+    .save();
 }
 </script>
 </body>
