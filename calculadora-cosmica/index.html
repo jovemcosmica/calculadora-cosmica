@@ -56,7 +56,7 @@ button:hover {
 
 <body>
 
-<h1>✨ Diagnóstico Energético Cósmico ✨</h1>
+<h2>✨ Diagnóstico Energético Cósmico ✨</h2>
 
 <form id="formCosmico">
 <label>Nome:</label>
@@ -74,6 +74,7 @@ button:hover {
 <div id="resultado"></div>
 
 <script>
+
 function descobrirSigno(dia, mes) {
   if ((mes==3 && dia>=21)||(mes==4 && dia<=19)) return "Áries";
   if ((mes==4 && dia>=20)||(mes==5 && dia<=20)) return "Touro";
@@ -106,11 +107,43 @@ function energiaDaHora(hora) {
   return "Terra";
 }
 
+function gerarDiagnostico(elementoBase, elementoHora) {
+
+  let intensidade;
+  let dominante;
+  let emBaixa;
+
+  if (elementoBase === elementoHora) {
+    intensidade = "alta";
+    dominante = elementoBase;
+  } else {
+    intensidade = "equilibrada";
+    dominante = elementoBase;
+  }
+
+  const todos = ["Fogo","Terra","Ar","Água"];
+  emBaixa = todos.find(el => el !== elementoBase && el !== elementoHora);
+
+  return { intensidade, dominante, emBaixa };
+}
+
 const interpretacoes = {
-  "Fogo":"Você possui uma energia intensa e criativa. Trabalhar o elemento Fogo fortalece iniciativa e ação.",
-  "Água":"Sua sensibilidade e intuição são marcantes. Fortalecer Água equilibra emoções.",
-  "Ar":"Sua mente é ativa e comunicativa. Estimular Ar amplia criatividade e clareza.",
-  "Terra":"Você busca estabilidade e segurança. Reforçar Terra traz estrutura e foco."
+  "Fogo": {
+    alta: "Sua energia é intensa, magnética e cheia de iniciativa. Você naturalmente assume liderança e inspira movimento.",
+    equilibrada: "Você possui impulso criativo, mas alterna entre ação e introspecção, buscando momentos de recarga."
+  },
+  "Água": {
+    alta: "Sua sensibilidade é profunda e intuitiva. Emoções são sua grande força e conexão espiritual.",
+    equilibrada: "Você tem conexão emocional, mas busca racionalizar sentimentos antes de agir."
+  },
+  "Ar": {
+    alta: "Sua mente é rápida e comunicativa. Ideias fluem com facilidade e você inspira através da palavra.",
+    equilibrada: "Você alterna entre pensamento lógico e momentos de introspecção silenciosa."
+  },
+  "Terra": {
+    alta: "Você transmite estabilidade e segurança. Sua energia é estruturada, confiável e centrada.",
+    equilibrada: "Você busca equilíbrio entre estabilidade e movimento, adaptando-se conforme necessário."
+  }
 };
 
 const recomendacoes = {
@@ -134,27 +167,26 @@ document.getElementById("formCosmico").addEventListener("submit", function(e){
   const elementoBase = elementoDoSigno(signo);
   const elementoHora = energiaDaHora(hora);
 
-  const todos = ["Fogo","Terra","Ar","Água"];
-  const elementoEmBaixa = todos.find(el => el !== elementoBase && el !== elementoHora);
+  const perfil = gerarDiagnostico(elementoBase, elementoHora);
 
   let html = `
     <h2>Olá, ${nome} ✨</h2>
-    <p><strong>Seu signo solar:</strong> ${signo}</p>
-    <p><strong>Elemento predominante:</strong> ${elementoBase}</p>
-    <p><strong>Energia complementar:</strong> ${elementoHora}</p>
+    <p><strong>Signo solar:</strong> ${signo}</p>
+    <p><strong>Elemento predominante:</strong> ${perfil.dominante}</p>
+    <p><strong>Intensidade energética:</strong> ${perfil.intensidade}</p>
     <hr>
     <h3>Seu Diagnóstico Energético</h3>
-    <p>${interpretacoes[elementoBase]}</p>
-    <p><strong>Elemento que pode ser fortalecido:</strong> ${elementoEmBaixa}</p>
+    <p>${interpretacoes[perfil.dominante][perfil.intensidade]}</p>
+    <p><strong>Elemento que pode ser fortalecido:</strong> ${perfil.emBaixa}</p>
     <div style="margin-top:15px; padding:15px; background:#5c1480; border-radius:10px;">
       <p>✨ Para equilibrar sua energia recomendamos:</p>
-      <strong>${recomendacoes[elementoEmBaixa]}</strong>
+      <strong>${recomendacoes[perfil.emBaixa]}</strong>
     </div>
   `;
 
   document.getElementById("resultado").innerHTML = html;
 });
-</script>
 
+</script>
 </body>
 </html>
