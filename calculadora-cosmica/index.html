@@ -174,29 +174,42 @@ document.getElementById("formCosmico").addEventListener("submit", function(e){
     Água: elementoBase === "Água" ? 70 : 30
   };
 
-  let html = `
-    <h2>Olá, ${nome} ✨</h2>
-    <p><strong>Seu arquétipo energético:</strong> ${arquetipos[elementoBase]}</p>
-    <p><strong>Signo solar:</strong> ${signo}</p>
-    <p><strong>Elemento predominante:</strong> ${elementoBase}</p>
-    <hr>
-    <h3>Mapa Elemental</h3>
+  const interpretacoes = {
+  "Fogo": "Sua energia é intensa e magnética. Quando você decide agir, move situações e inspira pessoas ao seu redor.",
+  "Água": "Sua conexão emocional é profunda. Você sente o ambiente antes mesmo que algo aconteça, mas tende a racionalizar sentimentos antes de agir. Quando integra emoção e ação, sua força se amplifica.",
+  "Ar": "Sua mente é rápida e comunicativa. Ideias surgem com facilidade e você influencia através da palavra.",
+  "Terra": "Você transmite estabilidade e segurança. Sua energia é estruturada e confiável."
+};
 
-    ${Object.keys(porcentagens).map(el => `
-      <p>${el}</p>
-      <div class="barra">
-        <div class="preenchimento" style="width:${porcentagens[el]}%"></div>
-      </div>
-    `).join("")}
+let html = `
+  <h2>Olá, ${nome} ✨</h2>
 
-    <p><strong>Elemento que pede fortalecimento:</strong> ${elementoEmBaixa}</p>
+  <p><strong>Seu arquétipo energético:</strong> ${arquetipos[elementoBase]}</p>
+  <p><strong>Signo solar:</strong> ${signo}</p>
+  <p><strong>Elemento predominante:</strong> ${elementoBase}</p>
 
-    <a class="botao-compra" href="${recomendacoes[elementoEmBaixa]}" target="_blank">
-      ✨ Ativar minha energia agora
-    </a>
-  `;
+  <hr>
 
-  document.getElementById("resultado").innerHTML = html;
+  <h3>Seu Diagnóstico Energético</h3>
+  <p>${interpretacoes[elementoBase]}</p>
+
+  <hr>
+
+  <h3>Mapa Elemental</h3>
+
+  ${Object.keys(porcentagens).map(el => `
+    <p>${el}</p>
+    <div class="barra">
+      <div class="preenchimento" style="width:${porcentagens[el]}%"></div>
+    </div>
+  `).join("")}
+
+  <p><strong>Elemento que pede fortalecimento:</strong> ${elementoEmBaixa}</p>
+
+  <a class="botao-compra" href="${recomendacoes[elementoEmBaixa]}" target="_blank">
+    ✨ Ativar minha energia agora
+  </a>
+`;
 
   console.log("Lead capturado:", nome, email);
 });
