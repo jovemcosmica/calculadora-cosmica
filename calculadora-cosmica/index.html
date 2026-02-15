@@ -73,6 +73,7 @@
 }
   </style>
 </head>
+<body>
 <div class="logo-container">
   <a href="https://jovemcosmica.com.br" target="_blank">
     <img 
@@ -82,7 +83,6 @@
     />
   </a>
 </div>
-<body>
   <h1>Calculadora de Mapa Astral</h1>
   <form id="formMapaAstral">
     <label for="nome">Nome:</label>
@@ -353,9 +353,6 @@ if (recomendacao) {
     </div>
   `;
 }
-
-resultado.innerHTML = html;
-
 html += `
   <div style="margin-top:40px; text-align:center; font-size:14px; opacity:0.8;">
     ✨ Feito com carinho pela <strong>Jovem Cósmica</strong> 🌙
@@ -378,7 +375,18 @@ document.getElementById("btnPDF").style.display = "block";
 function gerarPDF() {
   const elementoOriginal = document.getElementById("resultado");
 
+  if (!elementoOriginal || elementoOriginal.innerHTML.trim() === "") {
+    alert("O diagnóstico ainda não foi gerado.");
+    return;
+  }
+
   const containerPDF = document.createElement("div");
+
+  containerPDF.style.width = "800px";
+  containerPDF.style.padding = "40px";
+  containerPDF.style.background = "#ffffff";
+  containerPDF.style.color = "#000000";
+  containerPDF.style.fontFamily = "Arial, sans-serif";
 
   containerPDF.innerHTML = `
     <div style="text-align:center; margin-bottom:20px;">
@@ -391,15 +399,14 @@ function gerarPDF() {
     </div>
   `;
 
-  // 👇 ESSA LINHA É A CHAVE
   document.body.appendChild(containerPDF);
 
   const opt = {
     margin: 10,
-    filename: 'diagnostico-energetico-cosmico.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    filename: "diagnostico-energetico-cosmico.pdf",
+    image: { type: "jpeg", quality: 1 },
+    html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
   };
 
   html2pdf()
@@ -407,7 +414,7 @@ function gerarPDF() {
     .from(containerPDF)
     .save()
     .then(() => {
-      document.body.removeChild(containerPDF); // remove depois de gerar
+      document.body.removeChild(containerPDF);
     });
 }
 </script>
