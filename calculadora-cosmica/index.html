@@ -1,403 +1,160 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mapa Astral com Casas e Elementos</title>
-  <style>
-    body {
-      background-color: #32004f;
-      color: #ffffff;
-      font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 0;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #f5b1ff;
-    }
-    label {
-      display: block;
-      margin: 15px 0 5px;
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-    }
-    button {
-      background-color: #f5b1ff;
-      color: #32004f;
-      margin-top: 20px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #e189ff;
-    }
-    #resultado {
-      margin-top: 30px;
-      padding: 20px;
-      background-color: #4a0074;
-      border-radius: 10px;
-    }
-.logo-container {
-  text-align: center;
-  margin-bottom: 20px;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Diagnóstico Energético Cósmico</title>
+
+<style>
+body {
+  background-color: #32004f;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.logo {
-  max-width: 260px;
-  height: auto;
+h1 {
+  text-align: center;
+  color: #f5b1ff;
 }
-.btn-pdf {
+
+label {
+  display: block;
+  margin: 15px 0 5px;
+}
+
+input, button {
   width: 100%;
-  padding: 12px;
-  margin-top: 15px;
-  background: linear-gradient(90deg, #f5b1ff, #d29bff);
-  color: #32004f;
-  border-radius: 10px;
-  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
   border: none;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #f5b1ff;
+  color: #32004f;
+  margin-top: 20px;
+  font-weight: bold;
   cursor: pointer;
 }
-  </style>
-</head>
-<body>
-<div class="logo-container">
-  <a href="https://jovemcosmica.com.br" target="_blank">
-    <img 
-      src="https://dcdn-us.mitiendanube.com/stores/006/325/212/themes/common/logo-1097354101-1749087161-4df9d2447d2a1bf88230390b8b24bb741749087161-480-0.webp" 
-      alt="Jovem Cósmica"
-      class="logo"
-    />
-  </a>
-</div>
-  <h1>Calculadora de Mapa Astral</h1>
-  <form id="formMapaAstral">
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" required />
 
-    <label for="data">Data de nascimento:</label>
-    <input type="date" id="data" required />
-
-    <label for="hora">Hora de nascimento:</label>
-    <input type="time" id="hora" required />
-
-    <label for="cidade">Cidade de nascimento:</label>
-    <input type="text" id="cidade" required />
-
-    <button type="submit">Consultar Mapa Astral</button>
-  </form>
-
-  <div id="resultado"></div>
-
-	<button onclick="gerarPDF()" class="btn-pdf" id="btnPDF" style="display:none;">
-  📄 Baixar meu Diagnóstico Energético
-	</button>
-
-  <script>
-async function buscarCoordenadas(cidade) {
-  const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cidade + ", Brasil")}&format=json&limit=1`;
-  const response = await fetch(url);
-  const data = await response.json();
-
-  if (data.length > 0) {
-    return {
-      lat: parseFloat(data[0].lat),
-      lon: parseFloat(data[0].lon)
-    };
-  } else {
-    throw new Error("Localização não encontrada");
-  }
+button:hover {
+  background-color: #e189ff;
 }
 
-document.getElementById("formMapaAstral")
-.addEventListener("submit", async function(e) {
+#resultado {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #4a0074;
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>✨ Diagnóstico Energético Cósmico ✨</h1>
+
+<form id="formCosmico">
+<label>Nome:</label>
+<input type="text" id="nome" required />
+
+<label>Data de nascimento:</label>
+<input type="date" id="data" required />
+
+<label>Hora de nascimento:</label>
+<input type="time" id="hora" required />
+
+<button type="submit">Gerar Meu Diagnóstico</button>
+</form>
+
+<div id="resultado"></div>
+
+<script>
+function descobrirSigno(dia, mes) {
+  if ((mes==3 && dia>=21)||(mes==4 && dia<=19)) return "Áries";
+  if ((mes==4 && dia>=20)||(mes==5 && dia<=20)) return "Touro";
+  if ((mes==5 && dia>=21)||(mes==6 && dia<=20)) return "Gêmeos";
+  if ((mes==6 && dia>=21)||(mes==7 && dia<=22)) return "Câncer";
+  if ((mes==7 && dia>=23)||(mes==8 && dia<=22)) return "Leão";
+  if ((mes==8 && dia>=23)||(mes==9 && dia<=22)) return "Virgem";
+  if ((mes==9 && dia>=23)||(mes==10 && dia<=22)) return "Libra";
+  if ((mes==10 && dia>=23)||(mes==11 && dia<=21)) return "Escorpião";
+  if ((mes==11 && dia>=22)||(mes==12 && dia<=21)) return "Sagitário";
+  if ((mes==12 && dia>=22)||(mes==1 && dia<=19)) return "Capricórnio";
+  if ((mes==1 && dia>=20)||(mes==2 && dia<=18)) return "Aquário";
+  return "Peixes";
+}
+
+function elementoDoSigno(signo) {
+  const mapa = {
+    "Áries":"Fogo","Leão":"Fogo","Sagitário":"Fogo",
+    "Touro":"Terra","Virgem":"Terra","Capricórnio":"Terra",
+    "Gêmeos":"Ar","Libra":"Ar","Aquário":"Ar",
+    "Câncer":"Água","Escorpião":"Água","Peixes":"Água"
+  };
+  return mapa[signo];
+}
+
+function energiaDaHora(hora) {
+  if (hora>=6 && hora<12) return "Fogo";
+  if (hora>=12 && hora<18) return "Ar";
+  if (hora>=18 && hora<23) return "Água";
+  return "Terra";
+}
+
+const interpretacoes = {
+  "Fogo":"Você possui uma energia intensa e criativa. Trabalhar o elemento Fogo fortalece iniciativa e ação.",
+  "Água":"Sua sensibilidade e intuição são marcantes. Fortalecer Água equilibra emoções.",
+  "Ar":"Sua mente é ativa e comunicativa. Estimular Ar amplia criatividade e clareza.",
+  "Terra":"Você busca estabilidade e segurança. Reforçar Terra traz estrutura e foco."
+};
+
+const recomendacoes = {
+  "Fogo":"Home Spray Aroma do Fogo",
+  "Água":"Home Spray Aroma da Água",
+  "Ar":"Home Spray Aroma do Ar",
+  "Terra":"Home Spray Aroma da Terra"
+};
+
+document.getElementById("formCosmico").addEventListener("submit", function(e){
   e.preventDefault();
 
   const nome = document.getElementById("nome").value;
   const data = document.getElementById("data").value.split("-");
-  const hora = document.getElementById("hora").value.split(":");
-  const cidade = document.getElementById("cidade").value;
+  const hora = parseInt(document.getElementById("hora").value.split(":")[0]);
 
-  const day = parseInt(data[2]);
-  const month = parseInt(data[1]);
-  const year = parseInt(data[0]);
-  const hour = parseInt(hora[0]);
-  const min = parseInt(hora[1]);
+  const dia = parseInt(data[2]);
+  const mes = parseInt(data[1]);
 
-  const resultado = document.getElementById("resultado");
-  resultado.innerHTML = "<p>Consultando os astros... ✨</p>";
+  const signo = descobrirSigno(dia, mes);
+  const elementoBase = elementoDoSigno(signo);
+  const elementoHora = energiaDaHora(hora);
 
-  try {
+  const todos = ["Fogo","Terra","Ar","Água"];
+  const elementoEmBaixa = todos.find(el => el !== elementoBase && el !== elementoHora);
 
-    const response = await fetch("/api/mapa-astral", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-	subject: nome,
-        day,
-        month,
-        year,
-        hour,
-        min,
-	city: cidade
-      })
-    });
-
-    const dataResult = await response.json();
-    console.log(dataResult);
-
-    if (!response.ok) throw new Error();
-
-let html = `
-  <div style="text-align:center; margin-bottom:20px;">
-    <img src="https://dcdn-us.mitiendanube.com/stores/006/325/212/themes/common/logo-1097354101-1749087161-4df9d2447d2a1bf88230390b8b24bb741749087161-480-0.webp"
-         style="max-width:180px;">
-  </div>
-
-  <h2>Olá, ${nome}! ✨</h2>
-`;
-
-const signos = {
-  Ari: "Áries",
-  Tau: "Touro",
-  Gem: "Gêmeos",
-  Can: "Câncer",
-  Leo: "Leão",
-  Vir: "Virgem",
-  Lib: "Libra",
-  Sco: "Escorpião",
-  Sag: "Sagitário",
-  Cap: "Capricórnio",
-  Aqu: "Aquário",
-  Pis: "Peixes"
-};
-
-const planetas = {
-  Sun: "Sol",
-  Moon: "Lua",
-  Mercury: "Mercúrio",
-  Venus: "Vênus",
-  Mars: "Marte",
-  Jupiter: "Júpiter",
-  Saturn: "Saturno",
-  Uranus: "Urano",
-  Neptune: "Netuno",
-  Pluto: "Plutão",
-  Ascendant: "Ascendente",
-  Medium_Coeli: "Meio do Céu"
-};
-
-const elementoPorSigno = {
-  Ari: "Fogo 🔥",
-  Leo: "Fogo 🔥",
-  Sag: "Fogo 🔥",
-
-  Tau: "Terra 🌱",
-  Vir: "Terra 🌱",
-  Cap: "Terra 🌱",
-
-  Gem: "Ar 🌬️",
-  Lib: "Ar 🌬️",
-  Aqu: "Ar 🌬️",
-
-  Can: "Água 💧",
-  Sco: "Água 💧",
-  Pis: "Água 💧"
-};
-
-const contagemElementos = {
-  "Fogo 🔥": 0,
-  "Terra 🌱": 0,
-  "Ar 🌬️": 0,
-  "Água 💧": 0
-};
-
-html += "<ul>";
-
-const planets = dataResult.chart_data?.planetary_positions;
-
-if (planets && Array.isArray(planets)) {
-  planets.forEach(planet => {
-  const nomePlaneta = planetas[planet.name] || planet.name;
-  const nomeSigno = signos[planet.sign] || planet.sign;
-  const nomeElemento = elementoPorSigno[planet.sign] || "";
-
-if (contagemElementos[nomeElemento] !== undefined) {
-  contagemElementos[nomeElemento]++;
-}
-
-  html += `
-    <li>
-      <strong>${nomePlaneta}</strong> — ${nomeSigno}
-      <br>
-      <small>${nomeElemento}</small>
-    </li>
-  `;
-});
-}
-
-html += "</ul>";
-
-let elementoEmBaixa = null;
-let menorValor = Infinity;
-
-for (const elemento in contagemElementos) {
-  if (contagemElementos[elemento] < menorValor) {
-    menorValor = contagemElementos[elemento];
-    elementoEmBaixa = elemento;
-  }
-}
-
-let elementoDominante = null;
-let maiorValor = -1;
-
-for (const elemento in contagemElementos) {
-  if (contagemElementos[elemento] > maiorValor) {
-    maiorValor = contagemElementos[elemento];
-    elementoDominante = elemento;
-  }
-}
-
-const interpretacoes = {
-  "Fogo 🔥": "Seu mapa pode indicar menor impulso, iniciativa ou autoconfiança energética. Ativar o fogo ajuda na ação e motivação.",
-  "Água 💧": "Pode indicar dificuldade em expressar emoções ou se conectar com a intuição. Trabalhar o elemento Água fortalece sensibilidade e equilíbrio emocional.",
-  "Ar 🌬️": "Pode sinalizar menor foco mental ou comunicação. Estimular o Ar ajuda na clareza e criatividade.",
-  "Terra 🌱": "Pode indicar falta de estabilidade ou organização. Fortalecer Terra traz estrutura e segurança."
-};
-
-html += `
-  <div style="margin-top:15px;">
-    <p><strong>Diagnóstico Energético:</strong><br>
-${interpretacoes[elementoEmBaixa]}</p>
-
-<p><strong>Elemento dominante:</strong> ${elementoDominante}</p>
-  </div>
-`;
-
-html += `
-  <div style="margin-top:15px;">
-    <strong>Distribuição dos Elementos:</strong><br>
-    🔥 ${contagemElementos["Fogo 🔥"]} |
-    💧 ${contagemElementos["Água 💧"]} |
-    🌬️ ${contagemElementos["Ar 🌬️"]} |
-    🌱 ${contagemElementos["Terra 🌱"]}
-  </div>
-`;
-
-html += `
-<hr>
-<h3>Resumo Energético ✨</h3>
-<p>Elemento com menor presença no mapa: <strong>${elementoEmBaixa}</strong></p>
-`;
-
-const recomendacoes = {
-  "Fogo 🔥": {
-    nome: "Home Spray Aroma do Fogo",
-    link: "https://jovemcosmica.com.br/produtos/home-spray-aroma-do-fogo/"
-  },
-  "Água 💧": {
-    nome: "Home Spray Aroma da Água",
-    link: "https://jovemcosmica.com.br/produtos/home-spray-aroma-da-agua/"
-  },
-  "Ar 🌬️": {
-    nome: "Home Spray Aroma do Ar",
-    link: "https://jovemcosmica.com.br/produtos/home-spray-aroma-do-ar/"
-  },
-  "Terra 🌱": {
-    nome: "Home Spray Aroma da Terra",
-    link: "https://jovemcosmica.com.br/produtos/home-spray-aroma-da-terra/"
-  }
-};
-
-const recomendacao = recomendacoes[elementoEmBaixa];
-
-if (recomendacao) {
-
-  // Remove o emoji do nome do elemento pra usar na URL
-  const nomeElementoLimpo = elementoEmBaixa
-    .replace(" 🔥", "")
-    .replace(" 💧", "")
-    .replace(" 🌬️", "")
-    .replace(" 🌱", "");
-
-  html += `
+  let html = `
+    <h2>Olá, ${nome} ✨</h2>
+    <p><strong>Seu signo solar:</strong> ${signo}</p>
+    <p><strong>Elemento predominante:</strong> ${elementoBase}</p>
+    <p><strong>Energia complementar:</strong> ${elementoHora}</p>
+    <hr>
+    <h3>Seu Diagnóstico Energético</h3>
+    <p>${interpretacoes[elementoBase]}</p>
+    <p><strong>Elemento que pode ser fortalecido:</strong> ${elementoEmBaixa}</p>
     <div style="margin-top:15px; padding:15px; background:#5c1480; border-radius:10px;">
-      <p>✨ Para equilibrar essa energia, recomendamos:</p>
-
-      <a href="${recomendacao.link}" 
-         target="_blank" 
-         style="color:#fff; font-weight:bold; display:block; margin-bottom:10px;">
-        ${recomendacao.nome}
-      </a>
-
-      <a href="https://jovemcosmica.com.br/home-sprays-${nomeElementoLimpo.toLowerCase()}" 
-         target="_blank"
-         style="display:inline-block; padding:8px 12px; background:#d29bff; color:#4a0072; border-radius:8px; font-weight:bold; text-decoration:none;">
-         Ver todos os sprays desse elemento
-      </a>
+      <p>✨ Para equilibrar sua energia recomendamos:</p>
+      <strong>${recomendacoes[elementoEmBaixa]}</strong>
     </div>
   `;
-}
-html += `
-  <div style="margin-top:40px; text-align:center; font-size:14px; opacity:0.8;">
-    ✨ Feito com carinho pela <strong>Jovem Cósmica</strong> 🌙
-  </div>
-`;
 
-resultado.innerHTML = html;
-
-document.getElementById("btnPDF").style.display = "block";
-
-  } catch (error) {
-    resultado.innerHTML = 
-      "<p>Não conseguimos consultar seu mapa agora. Verifique os dados e tente novamente ✨</p>";
-  }
+  document.getElementById("resultado").innerHTML = html;
 });
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<script>
-function gerarPDF() {
-  const { jsPDF } = window.jspdf;
-
-  const elemento = document.getElementById("resultado");
-
-  if (!elemento || elemento.innerText.trim() === "") {
-    alert("O diagnóstico ainda não foi gerado.");
-    return;
-  }
-
-  const doc = new jsPDF("p", "mm", "a4");
-
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(12);
-
-  // REMOVE EMOJIS E CARACTERES ESPECIAIS
-  const textoLimpo = elemento.innerText
-    .replace(/[^\u0000-\u00FF]/g, "");
-
-  const linhas = doc.splitTextToSize(textoLimpo, 180);
-
-  doc.text(linhas, 15, 20);
-
-  doc.save("diagnostico-energetico-cosmico.pdf");
-}
-</script>
 </body>
 </html>
