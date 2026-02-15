@@ -73,6 +73,7 @@
 }
   </style>
 </head>
+<body>
 <div class="logo-container">
   <a href="https://jovemcosmica.com.br" target="_blank">
     <img 
@@ -163,7 +164,14 @@ document.getElementById("formMapaAstral")
 
     if (!response.ok) throw new Error();
 
-    let html = `<h2>Olá, ${nome}! ✨</h2>`;
+let html = `
+  <div style="text-align:center; margin-bottom:20px;">
+    <img src="https://dcdn-us.mitiendanube.com/stores/006/325/212/themes/common/logo-1097354101-1749087161-4df9d2447d2a1bf88230390b8b24bb741749087161-480-0.webp"
+         style="max-width:180px;">
+  </div>
+
+  <h2>Olá, ${nome}! ✨</h2>
+`;
 
 const signos = {
   Ari: "Áries",
@@ -346,6 +354,14 @@ if (recomendacao) {
     </div>
   `;
 }
+
+resultado.innerHTML = html;
+
+html += `
+  <div style="margin-top:40px; text-align:center; font-size:14px; opacity:0.8;">
+    ✨ Feito com carinho pela <strong>Jovem Cósmica</strong> 🌙
+  </div>
+`;
 
 resultado.innerHTML = html;
 
